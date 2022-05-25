@@ -1,4 +1,8 @@
 /* Main div */
+body {
+    background-color: #111320;
+}
+
 .main-block {
     background-color: #111320;
     color: gainsboro;
@@ -9,16 +13,9 @@
     /* height: 100%; */
 }
 
-<<<<<<< HEAD
-body {
-    background-color: #111320;
-}
-
-=======
->>>>>>> 448a1456b349936fc23cc2fe7b65362365de01f8
 #header-col-logo {
     margin: 0px auto;
-    text-align: center;
+    text-align: start;
     background-color: rgb(254, 209, 35);
     height: 35px;
 }
@@ -31,11 +28,7 @@ body {
     background-color:rgb(254, 209, 35);
     border-radius: 5px;
     color: #171C2D;
-<<<<<<< HEAD
-    /* margin: 5px auto; */
-=======
     margin: 5px auto;
->>>>>>> 448a1456b349936fc23cc2fe7b65362365de01f8
 }
 
 

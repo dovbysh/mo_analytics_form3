@@ -10,13 +10,13 @@ from datatable_chart import data_bars,  dt_columns_all
 from page_layout2 import make_page_layout
 
 # external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-external_stylesheets = 'assets/bootstrap-grid.min.css'
-# external_stylesheets = dbc.themes.GRID
+external_stylesheets = 'bootstrap/bootstrap-grid.min.css'
+
 # app = Dash(__name__, external_stylesheets=[dbc.themes.GRID])
-app = Dash(__name__)
+app = Dash(__name__, external_stylesheets=[external_stylesheets])
 app.css.config.serve_locally = True
 app.scripts.config.serve_locally = True
-app.css.append_css({'external_url': external_stylesheets})
+# app.css.append_css({'external_url': external_stylesheets})
 
 df = prepare_data(rough_df)
 app.layout = make_page_layout(df)
@@ -91,7 +91,7 @@ def store_filter_data(date_value, region_name, carrier, route_num, park_title,
         }, indent=2)
     global i
     
-    print(f'-------------STAGE {i + 1}---------------')
+    # print(f'-------------STAGE {i + 1}---------------')
 
     i += 1
     # print(ctx_msg)
@@ -201,8 +201,8 @@ def update_graph(store_data):
     # create bar chart figure for callback output
     bar_chart_fig = make_bar_chart(dff)
     global i
-    print(f'-------------STAGE BAR ChART {i}---------------')
-    print(f'ClickData =  {click_data_filter}')
+    # print(f'-------------STAGE BAR ChART {i}---------------')
+    # print(f'ClickData =  {click_data_filter}')
     
     # change opacity if any bar has been clicked
     if click_data_filter:
@@ -325,7 +325,7 @@ def update_table(store_data, back_button_n_clicks, clear_button_n_clicks):
     dff = groupby_filter_datatable(
         df[df['day']==day_num], 
         {
-        'Час': hour,
+        'hour': hour,
         'rg_title': region_filter, 
         'crr_title': carrier_filter, 
         'mr_num': store_data['route_num'],

@@ -6,7 +6,7 @@ def make_bar_chart(dff):
     fig = make_subplots(specs=[[{"secondary_y": True}]])
     fig.add_trace(
         go.Bar(
-            x=dff['Час'], y=dff['BusFact'], 
+            x=dff['hour'], y=dff['BusFact'], 
             name="Выпуск автобусов", 
             marker={'color': '#2A85C5', 'opacity': 0.7, 'line': {'width': 0}}, 
             textfont={'color': 'rgb(255, 255, 255)'},
@@ -18,7 +18,7 @@ def make_bar_chart(dff):
     
     fig.add_trace(
         go.Bar(
-            x=dff['Час'], 
+            x=dff['hour'], 
             y=(dff['BusPlan']-dff['BusFact']), 
             name="Невыпуск", 
             marker={'color': '#BCBCBB', 'opacity': 1, 'line': {'width': 0}}, 
@@ -31,7 +31,7 @@ def make_bar_chart(dff):
     
     fig.add_trace(
         go.Bar(
-            x=dff['Час'], 
+            x=dff['hour'], 
             y=dff['OutBus'], 
             name="Сход", 
             marker={'color': '#EB5B39', 'opacity': 1, 'line': {'width': 0}}, 
@@ -44,7 +44,7 @@ def make_bar_chart(dff):
     
     fig.add_trace(
         go.Scatter(
-            x=dff['Час'], 
+            x=dff['hour'], 
             y=dff['BusFact']/dff['BusPlan'], 
             yaxis='y2',
             name="% выполнения рейсов", 

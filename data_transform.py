@@ -46,9 +46,9 @@ def group_filter_barchart_data(
     for key, val in by_dict.items():
         if val:
             if isinstance(by_dict[key], str):
-                filter_query += f'{key} == "{by_dict[key]}" & '
+                filter_query += f'{key} == "{val}" & '
             else:
-                filter_query += f'{key} == {by_dict[key]} & '
+                filter_query += f'{key} == {val} & '
     
     if len(filter_query) > 2:
         filter_query = filter_query[:-3]
@@ -68,8 +68,11 @@ def groupby_filter_datatable(
     
     filter_query = ''
     for key, val in filter_by.items():
-        if val:
-            filter_query += f'{key} == "{filter_by[key]}" & '
+      if val:
+            if isinstance(filter_by[key], str):
+                filter_query += f'{key} == "{val}" & '
+            else:
+                filter_query += f'{key} == {val} & '
     
     if len(filter_query.split()) > 2:
         filter_query = filter_query[:-3]
@@ -84,18 +87,17 @@ def groupby_filter_datatable(
 if __name__ == '__main__':
     print('Filtered data')
     df = prepare_data(rough_df)
-    print()
     print(df.info(memory_usage=True))
-    print(df.sample(10))
+    print(df.sample(15))
     print('-----------------------------------')
     
     print('Output group_filter_barchart_data')
     grouped_df = group_filter_barchart_data(df, {'crr_title': '', 'mr_num': '010'}, num_columns)
+    print(grouped_df.info(memory_usage=True))
     print(grouped_df)
     print('-----------------------------------')
     
     print('Output groupby_filter_datatable')
-    grouped_df = groupby_filter_datatable(df, {'mr_num': '010'}, ['crr_title'])
-    print(grouped_df.info())
-
+    grouped_df = groupby_filter_datatable(df, {'hour': 17}, ['crr_title'])
+    print(grouped_df.info(memory_usage=True))
     print(grouped_df)

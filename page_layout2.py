@@ -149,14 +149,10 @@ def make_page_layout(df):
     return page_layout
 
 if __name__ == '__main__':
-<<<<<<< HEAD
-    external_stylesheets = ['bootstrap/bootstrap.css']
-    app = Dash(external_stylesheets=external_stylesheets)
-=======
-    external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-    app = Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
->>>>>>> 448a1456b349936fc23cc2fe7b65362365de01f8
-    df = rough_df
-    dff = prepare_data(df)
-    app.layout = make_page_layout(dff)
-    app.run_server(debug=True)
+    print('uncomment')
+    # external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+    # app = Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
+    # df = rough_df
+    # dff = prepare_data(df)
+    # app.layout = make_page_layout(dff)
+    # app.run_server(debug=True)
