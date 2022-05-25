@@ -1,0 +1,130 @@
+body {
+    /* border: rgb(208, 144, 144) solid; */
+    background-color:whitesmoke;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 0px;
+    margin: 0px;
+}
+
+/* Header */
+
+#header {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    background-color: rgb(255, 209, 34);
+    color: black;
+    height: 40px;
+    width: 100%;
+    margin: 0px;
+
+}
+
+#logo-block {
+    /* display: flex; */
+    /* align-items: center;
+    justify-content: center; */
+    height: 100%;
+}
+
+#logo-image {
+    /* width: auto; */
+    height: 100%;
+    width: auto;   
+}
+
+#dashboard-name {
+    /* height: 100%;    */
+    margin: 0px auto 0px 10px;
+    padding: 10px auto 10px 10px;
+    height: 100%;
+    background-color: rgb(255, 209, 34);;
+    display: flex;
+    align-items: center;
+
+}
+
+p.title-name {
+    margin: auto;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Main data block */
+
+.main-block {
+    display: flex;
+    flex-direction: row;
+    /* min-width: 840px; */
+    /* border: green solid; */
+    max-width: 1400px;
+    margin: 10px auto;
+}
+
+.slicers-container {
+    display: flex;
+    /* align-items: justify; */
+    border-radius: 5px;
+}
+
+.date-slicers {
+    flex-direction: row;
+    justify-content: stretch;
+    /* justify-content: space-between; */
+    max-width: 1400px;
+    min-width: 340px;
+    margin: 10px auto;
+}
+
+
+.data-slicers {
+    flex-direction: column;
+    flex: 1;
+    justify-content: flex-start;
+    /* min-width: 200px; */
+    /* max-width: 150px; */
+    /* border: blue solid 3px; */
+}
+
+.slicer {
+    /* flex: 1; */
+    /* border:rgb(203, 198, 198) solid; */
+    border-radius: 5px;
+    /* width: 20%; */
+    margin: 5px 10px;
+    padding: 5px 10px;
+    background-color: white;
+    /* min-width: 150px;
+    min-height: 30px; */
+    box-shadow: 3px 3px 7px 0px rgba(0,0,0,0.3);
+}
+
+.horiz-slider {
+    flex: 1;
+}
+
+.data-container {
+    flex: 3;
+    /* width: 70%; */
+    /* min-width: 600px; */
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+}
+
+.vis-container {
+    min-height: 300px;
+    margin: 5px 10px;
+    padding: 5px 3px;
+    background-color: white;
+    box-shadow: 3px 3px 7px 0px rgba(0,0,0,0.3);
+    border-radius: 5px;
+}
+
+@media (max-width: 800px) {
+    .date-slicers, .main-block {
+      flex-direction: column;
+      align-items: left;
+      width: 100%;
+    }
+}

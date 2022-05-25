@@ -1,0 +1,174 @@
+/* Main div */
+.main-block {
+    background-color: #111320;
+    color: gainsboro;
+    font-family: Helvetica;
+    margin-left: auto; 
+    margin-right: auto;
+    /* min-height: 720px;  */
+    /* height: 100%; */
+}
+
+<<<<<<< HEAD
+body {
+    background-color: #111320;
+}
+
+=======
+>>>>>>> 448a1456b349936fc23cc2fe7b65362365de01f8
+#header-col-logo {
+    margin: 0px auto;
+    text-align: center;
+    background-color: rgb(254, 209, 35);
+    height: 35px;
+}
+
+#header-col-name h3{
+    margin: 10px auto;
+}
+
+#header-row {
+    background-color:rgb(254, 209, 35);
+    border-radius: 5px;
+    color: #171C2D;
+<<<<<<< HEAD
+    /* margin: 5px auto; */
+=======
+    margin: 5px auto;
+>>>>>>> 448a1456b349936fc23cc2fe7b65362365de01f8
+}
+
+
+#table-header-row button {
+    width: 100%;
+    background-color: #171C2D;
+    color: gainsboro;
+    border: none;
+    border-radius: 5px;
+    margin: 15px auto 0 auto;
+}
+
+#bar-header-row button {
+    width: 100%;
+    background-color: #171C2D;
+    color: gainsboro;
+    border: none;
+    border-radius: 5px;
+    margin: 15px auto 0 auto;
+}
+
+/* Date picker styles */
+#date-picker .DateInput_input, .SingleDatePickerInput {
+    width: 100% !important; 
+    background-color: grey;
+    color: gainsboro;
+    border: none;
+    border-radius: 5px;
+}
+
+#date-picker {
+    background-color: grey;
+    width: 100%; 
+    border-radius: 5px;
+    margin: 5px 5px;
+}
+
+#date-picker .DayPicker_transitionContainer, .CalendarMonth, .CalendarDay, .CalendarMonthGrid, .DayPickerNavigation_button {
+    background-color: gainsboro;  
+    border-color: white;  
+}
+
+#date-picker .DateInput {
+    background-color:  transparent !important;
+    border-radius: 5px;
+    margin: 5px 5px;
+}
+
+#date-picker .CalendarDay__selected {
+    background-color: #FDC218;
+    border-color:#FDC218;
+}
+
+#date-picker .DayPickerKeyboardShortcuts_buttonReset {
+    display: none;
+}
+
+
+/* Data slicers styles*/
+
+#main-col-slicers h3 {
+    margin: 15px auto 0 15px;
+}
+
+#data-slicers .VirtualizedSelectFocusedOption {
+    background-color: #171C2D;
+    color: gainsboro;
+}
+
+#data-slicers .Select-value-label {
+    color: #FDC218;
+}
+
+#data-slicers.Select-menu-outer {
+    background-color: gainsboro;
+    color: #171C2D;
+}
+
+#data-slicers .Select-control {
+    margin: 5px 5px;
+}
+
+#data-slicers .Select-placeholder:hover {
+    background-color:  #2370B7;
+    color: gainsboro;
+}
+
+#data-slicers input {
+    color: #FDC218;
+}
+
+#data-slicers .Select-placeholder{
+    color: rgba(128, 128, 128, 0.5);
+    font-weight: lighter;
+}
+
+
+/* Visuals styles */
+#main-col-visuals h3 {
+    margin: 15px auto 0 15px;
+}
+
+/* Data bar chart styles */
+#date-bar-chart {
+    padding: 10px;
+    background-color: #171C2D;
+    border-radius: 10px; 
+}
+
+/* Datatable styles */
+#data-table {
+    padding: 10px;
+    background-color: #171C2D;
+    border-radius: 10px;
+}
+
+#data-table input[placeholder="filter data..."] {
+    color: grey;
+}
+
+#data-table .cell--selected {
+    background-color: grey !important;
+    border: none;
+}
+
+#data-table .cell--selected:hover {
+    background-color: #2370B7 !important;
+}
+
+#data-table .column-header--sort {
+    color:  #2370B7;
+    padding: 1px 5px;
+    height: 10px;
+}
+
+
