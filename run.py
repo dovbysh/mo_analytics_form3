@@ -1,9 +1,6 @@
 from datetime import date
 import json
-<<<<<<< HEAD
-from mailbox import ExternalClashError
-=======
->>>>>>> 448a1456b349936fc23cc2fe7b65362365de01f8
+
 from dash import Dash, Input, Output, callback_context
 import dash_bootstrap_components as dbc
 
@@ -13,7 +10,6 @@ from datatable_chart import data_bars,  dt_columns_all
 from page_layout2 import make_page_layout
 
 # external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-<<<<<<< HEAD
 external_stylesheets = 'assets/bootstrap-grid.min.css'
 # external_stylesheets = dbc.themes.GRID
 # app = Dash(__name__, external_stylesheets=[dbc.themes.GRID])
@@ -21,9 +17,6 @@ app = Dash(__name__)
 app.css.config.serve_locally = True
 app.scripts.config.serve_locally = True
 app.css.append_css({'external_url': external_stylesheets})
-=======
-app = Dash(__name__, external_stylesheets=[dbc.themes.GRID])
->>>>>>> 448a1456b349936fc23cc2fe7b65362365de01f8
 
 df = prepare_data(rough_df)
 app.layout = make_page_layout(df)
