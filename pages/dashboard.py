@@ -4,8 +4,8 @@ from urllib.request import DataHandler
 from dash import Dash, dash_table, dcc, html
 import dash_bootstrap_components as dbc
 
-from data_transform import rough_df, prepare_data
-from datatable_chart import style_cell, style_data, style_header, style_filter, \
+from data_prep.data_transform import rough_df, prepare_data
+from pages.vis_funcs.datatable_chart import style_cell, style_data, style_header, style_filter, \
     style_cell_conditional
 
 dates_range = prepare_data(rough_df).index.min().date()
@@ -152,8 +152,8 @@ def make_page_layout():
     
     return page_layout
 
-if __name__ == '__main__':
-    print('uncomment')
+# if __name__ == '__main__':
+#     print('uncomment')
     # external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
     # app = Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
     # df = rough_df

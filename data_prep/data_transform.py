@@ -3,14 +3,14 @@ import pandas as pd
 from loguru import logger
 from tabulate import tabulate
 
-from df_optimizers import optimize
+from data_prep.df_optimizers import optimize
 
 # rough_df = pd.read_excel(io='/Users/max/Yandex.Disk.localized/Job/Проекты/МНОГОГО/Smart Movista/Аналитика/Данные КВР.xlsx', 
 #                    skiprows=1, 
 #                    usecols=list(range(1, 21))
 # )
 
-rough_df=pd.read_feather('fresh_data_dump.feather')
+rough_df=pd.read_feather('data_prep/fresh_data_dump.feather')
 
 
 data_filter_columns = ['mr_num', 'mr_title', 'mr_regnum','mc_title', 

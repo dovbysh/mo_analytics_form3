@@ -6,7 +6,7 @@ import os
 from time import sleep
 from tqdm.auto import tqdm
 
-from df_optimizers import optimize
+from data_prep.df_optimizers import optimize
 
 host = "http://149.126.169.223:4410"
 
