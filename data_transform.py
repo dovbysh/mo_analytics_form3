@@ -10,7 +10,8 @@ from df_optimizers import optimize
 #                    usecols=list(range(1, 21))
 # )
 
-rough_df=pd.read_feather('data_archive.feather')
+rough_df=pd.read_feather('fresh_data_dump.feather')
+
 
 data_filter_columns = ['mr_num', 'mr_title', 'mr_regnum','mc_title', 
                   'crr_title', 'pk_title', 'rg_title']
@@ -21,14 +22,16 @@ num_columns = ['BusPlan', 'BusFact', 'NoBus', 'OutBus']
 # Rough data preparation
 @logger.catch()
 def prepare_data(df: pd.DataFrame) -> pd.DataFrame:
+    df = df.copy()
     df = optimize(df, ['NariadDate'])
     df.index = df['NariadDate']
     df['day'] = df.index.day
-    
+    df['day'] = df['day'].astype('int8')
+    # df['day'] = df['day'].astype('int8')
     df['hour'] = (df['minIndex']/60).astype('int8')
+    # df['hour'] = df['hour'].astype('int8')
     df.drop('NariadDate', axis=1, inplace=True)
     
-    df = optimize(df, ['NariadDate'])
     df = df[date_time_columns + data_filter_columns + num_columns]
     
     return df
@@ -87,6 +90,7 @@ def groupby_filter_datatable(
 if __name__ == '__main__':
     print('Filtered data')
     df = prepare_data(rough_df)
+    df = df.loc['2022-05-20']
     print(df.info(memory_usage=True))
     print(df.sample(15))
     print('-----------------------------------')

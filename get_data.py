@@ -74,6 +74,7 @@ def store_data(data, filename='data_archive.feather'):
     
 def load_data_from_file(filename='data_archive.feater'):
     data = pd.read_feather(filename)
+    data = optimize(data, ['NariadDate'])
     return data
 
 def update_data(initial_days_offset=10, days_offset=3):
@@ -95,16 +96,20 @@ def update_data(initial_days_offset=10, days_offset=3):
     print(f'Download last {days_offset} days data')
     
     df_increment = pd.DataFrame(data=increment_data)
+    df_increment = optimize(df_increment, ['NariadDate'])
     
     print(' --------------- DF archive --------------- ')
     print(df_archive)
     print(' --------------- DF increment --------------- ')
     print(df_increment)
     
-    df = pd.concat([df_archive, df_increment], axis=0, ignore_index=True).\
-        drop_duplicates(['NariadDate','minIndex', 'rg_id', 'mr_id', 'crr_id'],keep='last')
+    df_updated = pd.concat([df_archive, df_increment], axis=0, ignore_index=True).\
+        drop_duplicates(['NariadDate','minIndex', 'rg_id', 'mr_id', 'crr_id'],keep='last').reset_index(drop=True)
     
-    return df
+    df_updated = optimize(df_updated, ['NariadDate'])
+    df_updated.to_feather('fresh_data_dump.feather')
+
+    return df_updated
 
 if __name__ == '__main__':
     df = update_data()

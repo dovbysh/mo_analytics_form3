@@ -1,5 +1,6 @@
-from datetime import date
+from datetime import datetime
 import json
+import pandas as pd
 
 from dash import Dash, Input, Output, callback_context
 import dash_bootstrap_components as dbc
@@ -9,17 +10,16 @@ from data_transform import prepare_data, group_filter_barchart_data, groupby_fil
 from datatable_chart import data_bars,  dt_columns_all
 from page_layout2 import make_page_layout
 
-# external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-external_stylesheets = 'bootstrap/bootstrap-grid.min.css'
 
-# app = Dash(__name__, external_stylesheets=[dbc.themes.GRID])
-app = Dash(__name__, external_stylesheets=[external_stylesheets])
+external_stylesheets = 'assets/bootstrap-grid.min.css'
+
+app = Dash(__name__, 
+           external_stylesheets=[external_stylesheets])
 app.css.config.serve_locally = True
 app.scripts.config.serve_locally = True
-# app.css.append_css({'external_url': external_stylesheets})
 
-df = prepare_data(rough_df)
-app.layout = make_page_layout(df)
+# df = prepare_data(rough_df)
+app.layout = make_page_layout()
 
 i = 0
 clickData_register = None
@@ -81,6 +81,12 @@ def store_filter_data(date_value, region_name, carrier, route_num, park_title,
             'bar_chart_clickData',
             'bar_chart_hoverData',
             ]
+    
+    rough_df=pd.read_feather('fresh_data_dump.feather')
+    
+    global df
+    df = prepare_data(rough_df).loc[date_value.split('T')[0]]
+    
     output = {key: val for key, val in zip(keys, values)}
     
     ctx = callback_context
@@ -98,7 +104,7 @@ def store_filter_data(date_value, region_name, carrier, route_num, park_title,
     # str(json.loads(ctx_msg).get('inputs'))
         
     return output, None, None #, table_active_cell
-    
+
 # Create data slicers crossfiltering
 @app.callback([
     Output('region-name-filter', 'options'), 
@@ -111,9 +117,8 @@ def store_filter_data(date_value, region_name, carrier, route_num, park_title,
     ],
     Input('memory-output', 'data'))
 def crossfilter_data_slicers(store_data):
-                            
-    day_num = date.fromisoformat(store_data['date_picker']).day
-    dff = df[df['day']==day_num]
+    
+    dff = df.loc[store_data['date_picker'].split('T')[0]]
     
     filter_dict = {
         'rg_title': store_data['region_name'],
@@ -144,7 +149,7 @@ def crossfilter_data_slicers(store_data):
 @app.callback([
     Output('date-bar-chart', 'figure')],
     Input('memory-output', 'data'))
-def update_graph(store_data):   
+def update_bar_chart(store_data):   
     hour = ''
     click_data_filter = hour
     
@@ -161,32 +166,29 @@ def update_graph(store_data):
     if store_data['clear_bar_chart_n_clicks']:
         hour = ''
         click_data_filter = hour
-
-    # calendar filter filter
-    # TODO: change to not day filter but date filter (filter by index but not by 'day' column in dataframe)
-    day_num = date.fromisoformat(store_data['date_picker']).day
     
     # filters from datatable by carrier (without drilldown)
     table_selected_filter = []
     if store_data['datatable_der_virt_sel_rows']:
         visible_cols = set(store_data['datatable_der_virt_data'][0])
         selected_column = list(visible_cols & set(['crr_title', 'rg_title', 'mr_title']))[0]
+        print(f'Selecter rows = {store_data["datatable_der_virt_sel_rows"]}')
         print(f'Selected cols = {selected_column}')
         for row in store_data['datatable_der_virt_sel_rows']:
             table_selected_filter.append(store_data['datatable_der_virt_data'][row][selected_column])
-        df_table_filtered = df[df[selected_column].isin(table_selected_filter)]
+        dff = df[df[selected_column].isin(table_selected_filter)]
     else:
-        df_table_filtered = df
+        dff = df
         
     if carrier_cell_filter_register:
-        df_table_filtered = df_table_filtered.query(f'crr_title == "{carrier_cell_filter_register}"')
+        dff = dff.query(f'crr_title == "{carrier_cell_filter_register}"')
     if region_cell_filter_register:
-        df_table_filtered = df_table_filtered.query(f'rg_title == "{region_cell_filter_register}"')
+        dff = dff.query(f'rg_title == "{region_cell_filter_register}"')
         
     
     # finally filter source dataframe    
     dff = group_filter_barchart_data(
-        df_table_filtered[df_table_filtered['day']==day_num], 
+        dff.loc[store_data['date_picker'].split('T')[0]], 
         {
         'rg_title': store_data['region_name'],
         'crr_title': store_data['carrier'],
@@ -239,9 +241,6 @@ def update_table(store_data, back_button_n_clicks, clear_button_n_clicks):
     global clickData_register
     global carrier_cell_filter_register
     global region_cell_filter_register
-
-    # filter day by value from Calendar visual
-    day_num = date.fromisoformat(store_data['date_picker']).day
 
     # Drilldown columns (click the key -> the new table columns in the dict values)
     drilldown_columns = {
@@ -323,7 +322,7 @@ def update_table(store_data, back_button_n_clicks, clear_button_n_clicks):
         
     # prepare data for datatable
     dff = groupby_filter_datatable(
-        df[df['day']==day_num], 
+        df.loc[store_data['date_picker'].split('T')[0]], 
         {
         'hour': hour,
         'rg_title': region_filter, 

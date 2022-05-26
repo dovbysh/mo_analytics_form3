@@ -3,22 +3,30 @@ body {
     background-color: #111320;
 }
 
+
 .main-block {
     background-color: #111320;
     color: gainsboro;
-    font-family: Helvetica;
+    font-family: "Segoe UI","Segoe UI Web (West European)",-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue","sans-serif";
     margin-left: auto; 
     margin-right: auto;
     /* min-height: 720px;  */
     /* height: 100%; */
 }
 
+h3 {
+    font-size: 1rem;
+}
+
 #header-col-logo {
     margin: 0px auto;
-    text-align: start;
+    text-align: center;
+    margin: auto;
     background-color: rgb(254, 209, 35);
     height: 35px;
 }
+
+
 
 #header-col-name h3{
     margin: 10px auto;
@@ -136,6 +144,7 @@ body {
     padding: 10px;
     background-color: #171C2D;
     border-radius: 10px; 
+    margin: 5px auto 10px auto;
 }
 
 /* Datatable styles */
@@ -143,6 +152,7 @@ body {
     padding: 10px;
     background-color: #171C2D;
     border-radius: 10px;
+    margin: 5px auto 10px auto;
 }
 
 #data-table input[placeholder="filter data..."] {

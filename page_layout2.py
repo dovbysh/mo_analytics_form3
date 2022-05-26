@@ -1,4 +1,5 @@
-from datetime import date, datetime
+from datetime import datetime, timedelta
+from multiprocessing.spawn import prepare
 from urllib.request import DataHandler
 from dash import Dash, dash_table, dcc, html
 import dash_bootstrap_components as dbc
@@ -7,9 +8,12 @@ from data_transform import rough_df, prepare_data
 from datatable_chart import style_cell, style_data, style_header, style_filter, \
     style_cell_conditional
 
+dates_range = prepare_data(rough_df).index.min().date()
+data_table_columns = prepare_data(rough_df).columns
+
 slider_style = {'backgroundColor': '#171C2D', 'color': 'grey', 'border': 'none'}
 
-def make_page_layout(df):
+def make_page_layout():
     page_layout = \
     html.Div(
         [
@@ -19,25 +23,24 @@ def make_page_layout(df):
                 dbc.Row(
                     [
                         dbc.Col(
-                            [
-                                html.Img(
+                            html.Img(
                                     src='assets/images/mostransavto_logo.jpg', 
                                     className='logo-image-container',
                                     style={'height': '100%'}
-                                )
-                            ],
+                            ),
                             id='header-col-logo', 
-                            width=1, 
-                            align='center'
+                            xs=1,
+                            sm=1,
+                            align='center', 
                             ),
                         dbc.Col(
                             html.H3('Контроль выполнения работ'), 
                             id='header-col-name', 
-                            width=4, align='center'),
-                        dbc.Col(id='header-col-cards')
+                            sm=6, xs=10, align='left'),
+                        dbc.Col(id='header-col-cards',sm=5, xs=1)
                     ],
                     id='header-row',
-                    justify='start'
+                    # justify='start', 
                     ),
                 dbc.Row(
                     [
@@ -47,10 +50,11 @@ def make_page_layout(df):
                                 html.Div(
                                         dcc.DatePickerSingle(
                                             id='date-picker',
-                                            min_date_allowed=date(2022, 1, 1),
-                                            max_date_allowed=datetime.today(),
-                                            initial_visible_month=datetime.today(),
-                                            date=date(2022, 3, 22), #datetime.today(),
+                                            min_date_allowed=dates_range,
+                                            max_date_allowed=(datetime.today() - timedelta(minutes=75)).date(),
+                                            initial_visible_month=(datetime.today() - timedelta(minutes=75)).date(),
+                                            date=(datetime.today() - timedelta(minutes=75)).date(),
+                                            display_format='DD-MM-YYYY',
                                         ),
                                     id='date-picker-Container'),
                                 
@@ -106,7 +110,7 @@ def make_page_layout(df):
                                 html.Div(
                                         dash_table.DataTable(
                                             columns=[{"name": i, "id": i} 
-                                                for i in df.columns], 
+                                                for i in data_table_columns], 
                                             id='data-table-chart', 
                                             # editable=True,
                                             # filter_action="native",
