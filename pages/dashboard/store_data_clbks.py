@@ -5,6 +5,8 @@ from app import app
 from dash import Input, Output, callback_context
 from data_prep.data_transform import prepare_data
 
+rough_df = pd.read_feather('fresh_data_dump.feather')
+df = prepare_data(rough_df)
 
 @app.callback([
 Output('memory-output', 'data'),
@@ -55,16 +57,15 @@ def store_filter_data(date_value, region_name, carrier, route_num, park_title,
                 # 'back_n_clicks', 
                 'bar_chart_clickData',
                 'bar_chart_hoverData', 
-                'df',
                 ]
-
+        global df
         rough_df = pd.read_feather('fresh_data_dump.feather')
-        df = prepare_data(rough_df).loc[date_value.split('T')[0]]
-        df.reset_index(inplace=True)
+        df = prepare_data(rough_df)
+        df = df.loc[date_value.split('T')[0]]
 
         values = [date_value, region_name, carrier, route_num, park_title, route_type, 
         route_regnum, route_name, table_virt_data,table_sel_rows, table_active_cell, 
-        bar_chart_n_clicks, bar_clickData, bar_hoverData, df.to_dict('records')]
+        bar_chart_n_clicks, bar_clickData, bar_hoverData,]
 
         output = {key: val for key, val in zip(keys, values)}
 

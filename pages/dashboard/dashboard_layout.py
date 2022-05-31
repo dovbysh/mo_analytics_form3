@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from inspect import FullArgSpec
 from dash import dash_table, dcc, html, Input, Output
 import dash_bootstrap_components as dbc
 
@@ -74,7 +75,10 @@ def make_dashboard_layout():
                                             justify='center', 
                                             align='center'), 
                                         dbc.Col(
-                                            dcc.Graph(id='date-bar-chart',), 
+                                            # dcc.Graph(id='date-bar-chart',), 
+                                            dbc.Spinner(dcc.Graph(id="date-bar-chart"), 
+                                                            fullscreen=True, delay_show=500, delay_hide=1000, color='rgb(254, 209, 35)',
+                                                            fullscreen_style={'backgroundColor': '#111320'}, ),
                                             width=12, 
                                             align='center'),
                                 dbc.Row(

@@ -3,8 +3,10 @@ import pandas as pd
 from dash import Input, Output
 
 from app import app
-from data_prep.data_transform import groupby_filter_datatable, optimize
+from data_prep.data_transform import groupby_filter_datatable
 from pages.dashboard.datatable_fig import dt_columns_all
+
+from pages.dashboard.store_data_clbks import df
 
 
 carrier_cell_filter_register = None
@@ -24,10 +26,6 @@ def update_table(store_data, back_button_n_clicks, clear_button_n_clicks):
     global clickData_register
     global carrier_cell_filter_register
     global region_cell_filter_register
-    
-    df = pd.DataFrame.from_dict(store_data['df'])
-    df.set_index('NariadDate', drop=True, inplace=True)
-    df.index = pd.to_datetime(df.index)
 
     # Drilldown columns (click the key -> the new table columns in the dict values)
     drilldown_columns = {

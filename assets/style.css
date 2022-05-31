@@ -4,7 +4,10 @@ body {
     width: 100%;
 }
 
-
+.loader-wrapper {
+    visibility: visible !important;
+    background-color: red;
+}
 
 .main-block {
     background-color: #111320;

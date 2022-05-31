@@ -3,9 +3,11 @@ import pandas as pd
 from dash import Input, Output
 
 from app import app
-from data_prep.data_transform import group_filter_barchart_data, num_columns, optimize
+from data_prep.data_transform import group_filter_barchart_data, num_columns
 from pages.dashboard.bar_chart_fig import make_bar_chart
 from pages.dashboard.datatable_clbks import carrier_cell_filter_register, region_cell_filter_register
+
+from pages.dashboard.store_data_clbks import df
 
 # click_data_filter = None
     
@@ -17,10 +19,6 @@ from pages.dashboard.datatable_clbks import carrier_cell_filter_register, region
 def update_bar_chart(store_data):   
     hour = ''
     click_data_filter = hour
-    
-    df = pd.DataFrame.from_dict(store_data['df'])
-    df.set_index('NariadDate', drop=True, inplace=True)
-    df.index = pd.to_datetime(df.index)
     
     # set hour filter if hover on any bar in the chart
     if store_data['bar_chart_hoverData']:
