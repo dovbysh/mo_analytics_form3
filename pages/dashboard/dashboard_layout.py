@@ -1,47 +1,47 @@
 from datetime import datetime, timedelta
-from multiprocessing.spawn import prepare
-from urllib.request import DataHandler
-from dash import Dash, dash_table, dcc, html
+from dash import dash_table, dcc, html, Input, Output
 import dash_bootstrap_components as dbc
 
+from app import app
 from data_prep.data_transform import rough_df, prepare_data
-from pages.vis_funcs.datatable_chart import style_cell, style_data, style_header, style_filter, \
-    style_cell_conditional
+from pages.dashboard.datatable_fig import style_cell, style_data, style_header, style_filter, style_cell_conditional
+
 
 dates_range = prepare_data(rough_df).index.min().date()
 data_table_columns = prepare_data(rough_df).columns
 
 slider_style = {'backgroundColor': '#171C2D', 'color': 'grey', 'border': 'none'}
 
-def make_page_layout():
+def make_dashboard_layout():
     page_layout = \
     html.Div(
         [
+            dcc.Location(id='dashboard', refresh=True),
             dcc.Store(id='memory-output'),
             dbc.Container(
                 [
-                dbc.Row(
-                    [
-                        dbc.Col(
-                            html.Img(
-                                    src='assets/images/mostransavto_logo.jpg', 
-                                    className='logo-image-container',
-                                    style={'height': '100%'}
-                            ),
-                            id='header-col-logo', 
-                            xs=1,
-                            sm=1,
-                            align='center', 
-                            ),
-                        dbc.Col(
-                            html.H3('Контроль выполнения работ'), 
-                            id='header-col-name', 
-                            sm=6, xs=10, align='left'),
-                        dbc.Col(id='header-col-cards',sm=5, xs=1)
-                    ],
-                    id='header-row',
-                    # justify='start', 
-                    ),
+                # dbc.Row(
+                #     [
+                #         dbc.Col(
+                #             html.Img(
+                #                     src='assets/images/mostransavto_logo.jpg', 
+                #                     className='logo-image-container',
+                #                     style={'height': '100%'}
+                #             ),
+                #             id='header-col-logo', 
+                #             xs=1,
+                #             sm=1,
+                #             align='center', 
+                #             ),
+                #         dbc.Col(
+                #             html.H3('Контроль выполнения работ'), 
+                #             id='header-col-name', 
+                #             sm=6, xs=10, align='left'),
+                #         dbc.Col(id='header-col-cards',sm=5, xs=1)
+                #     ],
+                #     id='header-row',
+                #     # justify='start', 
+                #     ),
                 dbc.Row(
                     [
                         dbc.Col(
@@ -149,11 +149,18 @@ def make_page_layout():
         className='main-block'
     )
     
-    
     return page_layout
 
-# if __name__ == '__main__':
-#     print('uncomment')
+
+# Create callbacks
+@app.callback(Output('dashboard', 'pathname'),
+              [Input('back-button', 'n_clicks')])
+def logout_dashboard(n_clicks):
+    if n_clicks > 0:
+        return '/'
+
+if __name__ == '__main__':
+    print('uncomment')
     # external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
     # app = Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
     # df = rough_df

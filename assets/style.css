@@ -1,6 +1,7 @@
 /* Main div */
 body {
     background-color: #111320;
+    width: 100%;
 }
 
 
@@ -14,6 +15,30 @@ body {
     /* height: 100%; */
 }
 
+.container-width {
+    color: gainsboro;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+#user-name {
+    text-align: right;
+}
+
+#logout {
+    color: gainsboro;
+    text-align: center;
+    padding: auto 10px auto auto;
+    border-left: solid 1px grey;
+}
+
+
+.container {
+    margin: auto;
+    margin-top: 1%;
+}
+
 h3 {
     font-size: 1rem;
 }
@@ -22,21 +47,23 @@ h3 {
     margin: 0px auto;
     text-align: center;
     margin: auto;
-    background-color: rgb(254, 209, 35);
+    background-color: transparent; /* rgb(254, 209, 35); */
     height: 35px;
 }
 
 
-
 #header-col-name h3{
     margin: 10px auto;
+    text-align: left;
 }
 
 #header-row {
     background-color:rgb(254, 209, 35);
     border-radius: 5px;
     color: #171C2D;
-    margin: 5px auto;
+    margin: 5px auto 10px auto;
+    max-width: 1440px;
+    align-items: center;
 }
 
 
@@ -65,13 +92,14 @@ h3 {
     color: gainsboro;
     border: none;
     border-radius: 5px;
+    /* margin: 5px 5px; */
 }
 
 #date-picker {
     background-color: grey;
     width: 100%; 
     border-radius: 5px;
-    margin: 5px 5px;
+    margin: 12px auto 0px auto;
 }
 
 #date-picker .DayPicker_transitionContainer, .CalendarMonth, .CalendarDay, .CalendarMonthGrid, .DayPickerNavigation_button {
@@ -82,7 +110,6 @@ h3 {
 #date-picker .DateInput {
     background-color:  transparent !important;
     border-radius: 5px;
-    margin: 5px 5px;
 }
 
 #date-picker .CalendarDay__selected {
