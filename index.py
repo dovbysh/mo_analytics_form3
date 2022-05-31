@@ -9,7 +9,7 @@ from pages import login, login_fd, logout
 
 
 header = html.Div(
-    className='header',
+    className='row',
     children=html.Div(
         className='container-width',
         style={'height': '100%'},
@@ -30,7 +30,7 @@ header = html.Div(
                         dbc.Col(
                             html.H3('Контроль выполнения работ'), 
                             id='header-col-name', 
-                            sm=6, xs=8, align='left'),
+                            sm=6, xs=11, align='left'),
                         # dbc.Col(id='header-col-cards',sm=5, xs=1), 
                         # dbc.Col(
                         #     html.Div(
@@ -43,10 +43,11 @@ header = html.Div(
                         #     id='header-col-links', 
                         #     sm=2, xs=2, align='right'
                         #     ), 
-                        dbc.Col(html.Div(id='user-name', className='link'), sm=4, xs=10, align='right'), 
-                        dbc.Col(html.Div(id='logout', className='link'), sm=1, xs=1, align='right'),
+                        dbc.Col(html.Div(id='user-name', className='link'), sm=3, xs=8, align='right'), 
+                        dbc.Col(html.Div(id='logout', className='link'), sm=2, xs=4, align='right'),
                         ],
                     id='header-row',
+                    
                     # justify='start', 
                     ),
             
@@ -62,7 +63,7 @@ header = html.Div(
     )
 )
 
-app.layout = html.Div(
+app.layout = dbc.Container(
     [
         header,
         html.Div([

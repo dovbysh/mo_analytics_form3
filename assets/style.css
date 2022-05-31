@@ -5,6 +5,7 @@ body {
 }
 
 
+
 .main-block {
     background-color: #111320;
     color: gainsboro;
@@ -22,8 +23,13 @@ body {
     text-align: center;
 }
 
+
 #user-name {
     text-align: right;
+}
+
+.link {
+    padding: auto 3px;
 }
 
 #logout {

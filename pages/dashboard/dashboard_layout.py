@@ -18,32 +18,10 @@ def make_dashboard_layout():
         [
             dcc.Location(id='dashboard', refresh=True),
             dcc.Store(id='memory-output'),
-            dbc.Container(
+            html.Div(
                 [
-                # dbc.Row(
-                #     [
-                #         dbc.Col(
-                #             html.Img(
-                #                     src='assets/images/mostransavto_logo.jpg', 
-                #                     className='logo-image-container',
-                #                     style={'height': '100%'}
-                #             ),
-                #             id='header-col-logo', 
-                #             xs=1,
-                #             sm=1,
-                #             align='center', 
-                #             ),
-                #         dbc.Col(
-                #             html.H3('Контроль выполнения работ'), 
-                #             id='header-col-name', 
-                #             sm=6, xs=10, align='left'),
-                #         dbc.Col(id='header-col-cards',sm=5, xs=1)
-                #     ],
-                #     id='header-row',
-                #     # justify='start', 
-                #     ),
-                dbc.Row(
-                    [
+                    dbc.Row(
+                        [
                         dbc.Col(
                             [
                                 html.H3('Дата'),
