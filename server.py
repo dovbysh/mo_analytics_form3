@@ -1,8 +1,5 @@
 import os
 
-# Dash app initialization
-import dash
-
 from app import app
 from flask_login import LoginManager, UserMixin
 
@@ -41,3 +38,5 @@ class User(UserMixin, base):
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+

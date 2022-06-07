@@ -3,7 +3,7 @@ import pandas as pd
 from dash import Input, Output
 
 from app import app
-from pages.dashboard.store_data_clbks import df
+# from pages.dashboard.store_data_clbks import df
 
 # Create data slicers crossfiltering
 @app.callback([
@@ -17,6 +17,8 @@ from pages.dashboard.store_data_clbks import df
     ],
     Input('memory-output', 'data'))
 def update_data_slicers(store_data):
+    
+    from pages.dashboard.store_data_clbks import df
     dff = df.loc[store_data['date_picker'].split('T')[0]]
     
     filter_dict = {

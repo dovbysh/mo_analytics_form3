@@ -5,9 +5,9 @@ from dash import Input, Output
 from app import app
 from data_prep.data_transform import group_filter_barchart_data, num_columns
 from pages.dashboard.bar_chart_fig import make_bar_chart
-from pages.dashboard.datatable_clbks import carrier_cell_filter_register, region_cell_filter_register
+# from pages.dashboard.datatable_clbks import carrier_cell_filter_register, region_cell_filter_register
 
-from pages.dashboard.store_data_clbks import df
+# from pages.dashboard.store_data_clbks import df
 
 # click_data_filter = None
     
@@ -16,7 +16,11 @@ from pages.dashboard.store_data_clbks import df
 @app.callback([
     Output('date-bar-chart', 'figure')],
     Input('memory-output', 'data'))
-def update_bar_chart(store_data):   
+def update_bar_chart(store_data):
+    
+    from pages.dashboard.datatable_clbks import carrier_cell_filter_register, region_cell_filter_register
+    from pages.dashboard.store_data_clbks import df
+    
     hour = ''
     click_data_filter = hour
     

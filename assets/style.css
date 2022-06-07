@@ -35,6 +35,15 @@ body {
     padding: auto 3px;
 }
 
+.link a {
+    color: grey;
+    text-decoration: none !important;
+}
+
+.link a:hover {
+    color: black;
+}
+
 #logout {
     color: gainsboro;
     text-align: center;
@@ -181,6 +190,7 @@ h3 {
     background-color: #171C2D;
     border-radius: 10px; 
     margin: 5px auto 10px auto;
+    /* max-height: 350px; */
 }
 
 /* Datatable styles */
@@ -197,7 +207,8 @@ h3 {
 
 #data-table .cell--selected {
     background-color: grey !important;
-    border: none;
+    border: none !important;
+    border-color: transparent;
 }
 
 #data-table .cell--selected:hover {

@@ -8,7 +8,7 @@ from data_prep.data_transform import rough_df, prepare_data
 from pages.dashboard.datatable_fig import style_cell, style_data, style_header, style_filter, style_cell_conditional
 
 
-dates_range = prepare_data(rough_df).index.min().date()
+dates_range = prepare_data(rough_df).index
 data_table_columns = prepare_data(rough_df).columns
 
 slider_style = {'backgroundColor': '#171C2D', 'color': 'grey', 'border': 'none'}
@@ -29,10 +29,10 @@ def make_dashboard_layout():
                                 html.Div(
                                         dcc.DatePickerSingle(
                                             id='date-picker',
-                                            min_date_allowed=dates_range,
-                                            max_date_allowed=(datetime.today() - timedelta(minutes=75)).date(),
-                                            initial_visible_month=(datetime.today() - timedelta(minutes=75)).date(),
-                                            date=(datetime.today() - timedelta(minutes=75)).date(),
+                                            min_date_allowed=dates_range.min().date(),
+                                            max_date_allowed=dates_range.max().date(),
+                                            initial_visible_month=dates_range.max().date(),
+                                            date=dates_range.max().date(),
                                             display_format='DD-MM-YYYY',
                                         ),
                                     id='date-picker-Container'),

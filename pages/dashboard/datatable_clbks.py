@@ -6,7 +6,7 @@ from app import app
 from data_prep.data_transform import groupby_filter_datatable
 from pages.dashboard.datatable_fig import dt_columns_all
 
-from pages.dashboard.store_data_clbks import df
+# from pages.dashboard.store_data_clbks import df
 
 
 carrier_cell_filter_register = None
@@ -23,6 +23,7 @@ region_cell_filter_register = None
         Input('clear_datatable', 'n_clicks'))
 def update_table(store_data, back_button_n_clicks, clear_button_n_clicks):
     
+    from pages.dashboard.store_data_clbks import df
     global clickData_register
     global carrier_cell_filter_register
     global region_cell_filter_register
