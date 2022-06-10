@@ -19,6 +19,7 @@ def make_dashboard_layout():
         [
             dcc.Location(id='dashboard', refresh=True),
             dcc.Store(id='memory-output'),
+            dcc.Store(id='memory-output2'),
             html.Div(
                 [
                     dbc.Row(
@@ -76,7 +77,7 @@ def make_dashboard_layout():
                                             align='center'), 
                                         dbc.Col(
                                             # dcc.Graph(id='date-bar-chart',), 
-                                            dbc.Spinner(dcc.Graph(id="date-bar-chart"), 
+                                            dbc.Spinner(dcc.Graph(id="date-bar-chart", config={'doubleClick': 'reset+autosize'}), 
                                                             fullscreen=True, delay_show=500, delay_hide=1000, color='rgb(254, 209, 35)',
                                                             fullscreen_style={'backgroundColor': '#111320'}, ),
                                             width=12, 

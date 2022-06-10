@@ -1,25 +1,25 @@
 import pandas as pd
 
-from dash import Input, Output
+from dash import Input, Output, State
 
 from app import app
 # from pages.dashboard.store_data_clbks import df
 
 # Create data slicers crossfiltering
-@app.callback([
+@app.callback(
     Output('region-name-filter', 'options'), 
     Output('carrier-filter', 'options'),
     Output('route-num-filter', 'options'),
     Output('park-title-filter', 'options'),
     Output('route-type-filter', 'options'),
     Output('route-regnum-filter', 'options'),
-    Output('route-name-filter', 'options')
-    ],
+    Output('route-name-filter', 'options'),
     Input('memory-output', 'data'))
 def update_data_slicers(store_data):
     
-    from pages.dashboard.store_data_clbks import df
-    dff = df.loc[store_data['date_picker'].split('T')[0]]
+    # from pages.dashboard.store_data_clbks import df
+    # dff = df.loc[store_data['date_picker'].split('T')[0]]
+    dff = pd.DataFrame(store_data['df'])
     
     filter_dict = {
         'rg_title': store_data['region_name'],
