@@ -44,4 +44,10 @@ def update_data_slicers(store_data):
     route_regnum_opts = dff['mr_regnum'].unique()
     route_name_opts= dff['mr_title'].unique()
         
-    return region_name_opts, carrier_opts, route_num_opts, park_title_opts, route_type_opts, route_regnum_opts, route_name_opts
+    return (region_name_opts, 
+            carrier_opts, 
+            route_num_opts, 
+            park_title_opts, 
+            route_type_opts, 
+            route_regnum_opts, 
+            route_name_opts)

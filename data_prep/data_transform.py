@@ -46,10 +46,14 @@ def group_filter_barchart_data(
     filter_query = ''
     for key, val in by_dict.items():
         if val:
-            if isinstance(by_dict[key], str):
-                filter_query += f'{key} == "{val}" & '
+            if isinstance(val, list):
+                operator = 'in'
             else:
-                filter_query += f'{key} == {val} & '
+                operator = '=='
+            if isinstance(by_dict[key], str):
+                filter_query += f'{key} {operator} "{val}" & '
+            else:
+                filter_query += f'{key} {operator} {val} & '
     
     if len(filter_query) > 2:
         filter_query = filter_query[:-3]

@@ -11,7 +11,10 @@ from pages.dashboard.datatable_fig import style_cell, style_data, style_header, 
 dates_range = prepare_data(rough_df).index
 data_table_columns = prepare_data(rough_df).columns
 
-slider_style = {'backgroundColor': '#171C2D', 'color': 'grey', 'border': 'none'}
+slider_style = {
+    'backgroundColor': 'rgb(220, 220, 220)', #'#171C2D', 
+    'color': 'rgb(40, 40, 40)', #'grey', 
+    'border': 'none'}
 
 def make_dashboard_layout():
     page_layout = \
@@ -77,11 +80,23 @@ def make_dashboard_layout():
                                             align='center'), 
                                         dbc.Col(
                                             # dcc.Graph(id='date-bar-chart',), 
-                                            dbc.Spinner(dcc.Graph(id="date-bar-chart", config={'doubleClick': 'reset+autosize'}), 
-                                                            fullscreen=True, delay_show=500, delay_hide=1000, color='rgb(254, 209, 35)',
-                                                            fullscreen_style={'backgroundColor': '#111320'}, ),
+                                            dbc.Spinner(
+                                                dcc.Graph(
+                                                    id="date-bar-chart", 
+                                                    config={
+                                                        'doubleClick': 'reset+autosize', 
+                                                        'displaylogo': False, 
+                                                        'modeBarButtonsToRemove': ['zoom', 'pan', 'select', 'lasso2d']}, 
+                                                    ), 
+                                                fullscreen=True, 
+                                                delay_show=500, 
+                                                delay_hide=1000, 
+                                                color='rgb(254, 209, 35)',
+                                                fullscreen_style={'backgroundColor': 'whitesmoke'},
+                                                ),
                                             width=12, 
-                                            align='center'),
+                                            align='center'
+                                            ),
                                 dbc.Row(
                                     [
                                         dbc.Col(html.H3('Данные по перевозчикам / маршрутам'), width=9, align='center'),

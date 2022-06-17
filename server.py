@@ -39,4 +39,16 @@ class User(UserMixin, base):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+# add server health check
+@server.route("/health")
+def check_health():
+    return "{status: ok}"
+
+# add server readiness check
+@server.route("/readiness")
+def check_readiness():
+    return "{status: ok}"
+
+
+
 

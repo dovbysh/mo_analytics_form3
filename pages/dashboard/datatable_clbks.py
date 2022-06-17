@@ -5,11 +5,12 @@ from dash import Input, Output, State
 
 from app import app
 from data_prep.data_transform import groupby_filter_datatable
-from pages.dashboard.datatable_fig import dt_columns_all
+from pages.dashboard.datatable_fig import data_bars, dt_columns_all
 
 @app.callback(
         Output('data-table-chart', 'data'),
         Output('data-table-chart', 'columns'),
+        Output('data-table-chart', 'style_data_conditional'), 
         Input('memory-output2', 'data'),
         Input('memory-output', 'data'),
         State('data-table-chart', "derived_virtual_data"),
@@ -65,7 +66,7 @@ def update_table(
             dt_columns.append(el)
     dt_data = dff.sort_values(by='BusFact', ascending=False).to_dict('records')
     
-    # style_data_conditional = data_bars(dff, 'BusFact') + data_bars(dff, 'BusPlan') + \
-    #     data_bars(dff, '% выполнения') + data_bars(dff, 'NoBus') + data_bars(dff, 'OutBus')
+    style_data_conditional = data_bars(dff, 'BusFact') + data_bars(dff, 'BusPlan') + \
+        data_bars(dff, '% выполнения') + data_bars(dff, 'NoBus') + data_bars(dff, 'OutBus')
     
-    return dt_data, dt_columns
+    return dt_data, dt_columns, style_data_conditional

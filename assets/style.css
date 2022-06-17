@@ -1,17 +1,20 @@
 /* Main div */
 body {
-    background-color: #111320;
+    /* background-color: #111320; */
+    background-color: whitesmoke;
     width: 100%;
 }
 
 .loader-wrapper {
     visibility: visible !important;
-    background-color: red;
+    /* background-color: red; */
 }
 
 .main-block {
-    background-color: #111320;
-    color: gainsboro;
+    /* background-color: #111320; */
+    background-color: whitesmoke;
+    /* color: gainsboro; */
+    color: rgb(40, 40, 40);
     font-family: "Segoe UI","Segoe UI Web (West European)",-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue","sans-serif";
     margin-left: auto; 
     margin-right: auto;
@@ -20,7 +23,8 @@ body {
 }
 
 .container-width {
-    color: gainsboro;
+    /* color: gainsboro; */
+    color: rgb(40, 40, 40);
     margin-left: auto;
     margin-right: auto;
     text-align: center;
@@ -41,7 +45,7 @@ body {
 }
 
 .link a:hover {
-    color: black;
+    color: rgb(40, 40, 40);
 }
 
 #logout {
@@ -78,7 +82,7 @@ h3 {
 #header-row {
     background-color:rgb(254, 209, 35);
     border-radius: 5px;
-    color: #171C2D;
+    /* color: #171C2D; */
     margin: 5px auto 10px auto;
     max-width: 1440px;
     align-items: center;
@@ -87,8 +91,10 @@ h3 {
 
 #table-header-row button {
     width: 100%;
-    background-color: #171C2D;
-    color: gainsboro;
+    /* background-color: #171C2D; */
+    background-color: white;
+    /* color: gainsboro; */
+    color: grey;
     border: none;
     border-radius: 5px;
     margin: 15px auto 0 auto;
@@ -96,8 +102,10 @@ h3 {
 
 #bar-header-row button {
     width: 100%;
-    background-color: #171C2D;
-    color: gainsboro;
+    /* background-color: #171C2D; */
+    background-color: white;
+    /* color: gainsboro; */
+    color: grey;
     border: none;
     border-radius: 5px;
     margin: 15px auto 0 auto;
@@ -106,15 +114,18 @@ h3 {
 /* Date picker styles */
 #date-picker .DateInput_input, .SingleDatePickerInput {
     width: 100% !important; 
-    background-color: grey;
-    color: gainsboro;
+    /* background-color: grey; */
+    background-color: gainsboro;
+    /* color: gainsboro; */
+    color: black;
     border: none;
     border-radius: 5px;
     /* margin: 5px 5px; */
 }
 
 #date-picker {
-    background-color: grey;
+    /* background-color: grey; */
+    background-color: gainsboro;
     width: 100%; 
     border-radius: 5px;
     margin: 12px auto 0px auto;
@@ -131,8 +142,10 @@ h3 {
 }
 
 #date-picker .CalendarDay__selected {
-    background-color: #FDC218;
-    border-color:#FDC218;
+    /* background-color: #FDC218; */
+    /* border-color: #FDC218; */
+    background-color: #2370B7;
+    border-color: #2370B7;
 }
 
 #date-picker .DayPickerKeyboardShortcuts_buttonReset {
@@ -144,15 +157,27 @@ h3 {
 
 #main-col-slicers h3 {
     margin: 15px auto 0 15px;
+    text-align: left;
 }
 
-#data-slicers .VirtualizedSelectFocusedOption {
-    background-color: #171C2D;
-    color: gainsboro;
+#data-slicers {
+    text-align: left;
 }
+
+#data-slicers .Select, .Select-placeholder {
+    background-color: gainsboro;
+    color: black;
+}
+
+/* #data-slicers .VirtualizedSelectFocusedOption { */
+    /* background-color: #171C2D; */
+    /* color: gainsboro; */
+/* } */
+
 
 #data-slicers .Select-value-label {
-    color: #FDC218;
+    /* color: #FDC218; */
+    color:#2370B7;;
 }
 
 #data-slicers.Select-menu-outer {
@@ -160,21 +185,21 @@ h3 {
     color: #171C2D;
 }
 
-#data-slicers .Select-control {
+/* #data-slicers .Select-control {
     margin: 5px 5px;
-}
+} */
 
 #data-slicers .Select-placeholder:hover {
     background-color:  #2370B7;
     color: gainsboro;
 }
 
-#data-slicers input {
+/* #data-slicers input {
     color: #FDC218;
-}
+} */
 
 #data-slicers .Select-placeholder{
-    color: rgba(128, 128, 128, 0.5);
+    /* color: rgba(128, 128, 128, 0.5); */
     font-weight: lighter;
 }
 
@@ -182,12 +207,13 @@ h3 {
 /* Visuals styles */
 #main-col-visuals h3 {
     margin: 15px auto 0 15px;
+    text-align: left;
 }
 
 /* Data bar chart styles */
 #date-bar-chart {
     padding: 10px;
-    background-color: #171C2D;
+    /* background-color: #171C2D; */
     border-radius: 10px; 
     margin: 5px auto 10px auto;
     /* max-height: 350px; */
@@ -196,7 +222,7 @@ h3 {
 /* Datatable styles */
 #data-table {
     padding: 10px;
-    background-color: #171C2D;
+    /* background-color: #171C2D; */
     border-radius: 10px;
     margin: 5px auto 10px auto;
 }
@@ -205,15 +231,15 @@ h3 {
     color: grey;
 }
 
-#data-table .cell--selected {
+/* #data-table .cell--selected {
     background-color: grey !important;
     border: none !important;
     border-color: transparent;
-}
+} */
 
-#data-table .cell--selected:hover {
+/* #data-table .cell--selected:hover {
     background-color: #2370B7 !important;
-}
+} */
 
 #data-table .column-header--sort {
     color:  #2370B7;
@@ -221,4 +247,18 @@ h3 {
     height: 10px;
 }
 
+/* White style */
+#data-table .dash-cell {
+    /* background-color: white !important; */
+    color: black !important;
+}
 
+#data-table .dash-header, .dash-select-header {
+    background-color: gainsboro !important;
+    color: rgb(40, 40, 40) !important;
+}
+
+#data-table .dash-select-cell {
+    background-color: white !important;
+    color: rgb(40, 40, 40) !important;
+}

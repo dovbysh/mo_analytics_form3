@@ -15,6 +15,9 @@ df = prepare_data(rough_df)
 
 @app.callback(
         Output('memory-output', 'data'),
+        Output('date-picker', 'min_date_allowed'),
+        Output('date-picker', 'max_date_allowed'),
+        Output('date-picker', 'initial_visible_month'),
         # Calendar
         Input('date-picker', 'date'), 
         # Main filters
@@ -37,13 +40,12 @@ def load_store_data(
         route_name, 
         ):
         
-        
         # load data
         rough_df = pd.read_feather('fresh_data_dump.feather')
         df = prepare_data(rough_df)
         
         # Date picker filtering
-        df = df.loc[date_value.split('T')[0]]
+        dff = df.loc[date_value.split('T')[0]]
         
         # Combining output
         
@@ -67,21 +69,30 @@ def load_store_data(
                 route_type, 
                 route_regnum, 
                 route_name, 
-                df.to_dict('records')
+                dff.to_dict('records')
                 ]
+        
+        dates_range = df.index
+        min_date_allowed = dates_range.min().date()
+        max_date_allowed = dates_range.max().date()
+        initial_visible_month = dates_range.max().date()
 
-        return {key: val for key, val in zip(keys, values)}
-
-
+        data =  {key: val for key, val in zip(keys, values)}
+        return (data, 
+                min_date_allowed, 
+                max_date_allowed, 
+                initial_visible_month)
 
 @app.callback(
         # Outputs
         Output('memory-output2', 'data'),
-        Output('info-container', 'children'), 
+        # Output('info-container', 'children'), 
         Output('data-table-chart', 'active_cell'), 
         Output('clear_datatable', 'n_clicks'),
         Output('back', 'n_clicks'),
         Output('clear_bar_chart', 'n_clicks'),
+        Output('date-bar-chart', 'clickData'),
+        Output('data-table-chart', "derived_virtual_selected_rows"),
         # Inputs
         State('data-table-chart', "derived_virtual_data"),
         State('memory-output2', 'data'),
@@ -94,7 +105,6 @@ def load_store_data(
         Input('data-table-chart', "derived_virtual_selected_rows")
         )
 def store_crossfilters(
-        # data,
         datatable_display_data,
         active_cell_filters,
         active_cell, 
@@ -118,17 +128,13 @@ def store_crossfilters(
                 elif 'mr_title' in datatable_display_data[0].keys():
                         active_cell_filters['level_3'] = datatable_display_data[selected_row]['mr_title']
                         
-        # TODO bar chart filtering by table selected rows
-        # if table_sel_rows:
-        #         act_row = table_active_cell['row']
-        #         act_col = table_active_cell['column_id']
-                
-        #         if act_col in ['crr_title', 'rg_title', 'mr_title'] and act_col in table_virt_data[0].keys():
-        #                 # choose first column to filter data
-        #                 active_cell_filter_val = table_virt_data[act_row][act_col]
-        #                 df_bc = df_bc.query(f'{act_col} == "{active_cell_filter_val}"')
-                
-        
+        # bar chart filtering by table selected rows
+        active_cell_filters['datatable_sel_rows'] = {}
+        if table_sel_rows:
+                left_col_name = list(datatable_display_data[0].keys())[0]
+                active_cell_filters['datatable_sel_rows'][left_col_name] = \
+                        [datatable_display_data[sel_row][left_col_name] for sel_row in table_sel_rows]
+
         if clear_datatable_click:
                   active_cell_filters = {}
                   clear_datatable_click = None
@@ -137,22 +143,33 @@ def store_crossfilters(
                 del active_cell_filters[list(active_cell_filters.keys())[-1]]
                 back_datatable_click = None
         
+        active_cell_filters['barchart_clicked_x'] = None
         if bar_clickData:
                  active_cell_filters['barchart_clicked_x'] = bar_clickData["points"][0].get("x", '')
-                 
         if bar_chart_n_clicks and active_cell_filters['barchart_clicked_x']:
                 active_cell_filters['barchart_clicked_x'] = None
                 bar_chart_n_clicks = None
+                bar_clickData = None
         
         
         # DEBUG INFO BLOCK    
-        ctx = callback_context
-        ctx_msg = json.dumps({
-            'states_data': ctx.states["memory-output2.data"],
-            'triggered': ctx.triggered[:-1],
-            'inputs-active_cell': ctx.inputs["data-table-chart.active_cell"]
-            }, indent=2)
+        # ctx = callback_context
+        # ctx_msg = json.dumps({
+        #     'states_data': ctx.states["memory-output2.data"],
+        #     'triggered': ctx.triggered[:-1],
+        #     'inputs-active_cell': ctx.inputs["data-table-chart.active_cell"], 
+        #     'sel_rows': ctx.inputs["data-table-chart.derived_virtual_selected_rows"], 
+        # #     'vis_data': ctx.states["data-table-chart.derived_virtual_data"]
+        #     }, indent=2)
         
         active_cell = None
         
-        return active_cell_filters, ctx_msg, active_cell, clear_datatable_click, back_datatable_click, bar_chart_n_clicks
+        return (active_cell_filters, 
+                # ctx_msg, 
+                active_cell, 
+                clear_datatable_click, 
+                back_datatable_click, 
+                bar_chart_n_clicks, 
+                bar_clickData, 
+                table_sel_rows
+                )

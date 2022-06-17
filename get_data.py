@@ -5,8 +5,11 @@ import os
 from time import sleep
 from tqdm.auto import tqdm
 from data_prep.data_scheduling import check_archive_update_time, check_increment_update_time_hourly
+from data_prep.data_scheduling import timezone
 
 from data_prep.df_optimizers import optimize
+from main_config import ARCHIVE_DATA_FILENAME, FRESH_DATA_FILENAME, GET_DATA_UPDATE_INTERVAL, \
+    INCREMENT_DAYS_OFFSET, INITIAL_DAYS_OFFSET
 
 host = "http://149.126.169.223:4410"
 
@@ -39,12 +42,16 @@ def get_data(host,
                 url=url, 
                 headers=headers, 
                 params=method_dict[method]['params'], 
-                timeout=5
+                timeout=10
                 )
             print(f'Status code {r.status_code}')
             data = r.json()
             return data
-        except:
+        except requests.exceptions.ReadTimeout as re:
+            print(re)
+            return {}
+        except requests.exceptions.ConnectTimeout as ce:
+            print(ce)
             return {}
         
     else:
@@ -63,41 +70,60 @@ def get_data(host,
                     params=method_dict[method]['params'], 
                     timeout=10
                     )
+                data += r.json()
                 # print(f'Status code in loop {r.status_code}')
-            except requests.ConnectTimeout as e:
-                print(e)
+            except requests.exceptions.ReadTimeout as re:
+                print(re)
                 continue
-            data += r.json()
+            except requests.exceptions.ConnectTimeout as ce:
+                print(ce)
+                continue
             sleep(1) 
         return data
 
-def store_data(data, filename='data_archive.feather'):
+def store_data(data, filename=ARCHIVE_DATA_FILENAME):
     df = pd.DataFrame(data=data)
-    df = optimize(df, ['NariadDate'])
+    df = optimize(df, ['NariadDate']).reset_index()
     df.to_feather(filename)
     
-def load_data_from_file(filename='data_archive.feater'):
+def load_data_from_file(filename=ARCHIVE_DATA_FILENAME):
     data = pd.read_feather(filename)
     data = optimize(data, ['NariadDate'])
     return data
 
-def update_data(initial_days_offset=10, days_offset=3):
-    if 'fresh_data_dump.feather' not in os.listdir('./') or check_increment_update_time_hourly():
-        if 'data_archive.feather' not in os.listdir('./') or check_archive_update_time():
+    
+def is_arch_data_uptodate(filename=ARCHIVE_DATA_FILENAME):
+    data = pd.read_feather(filename)
+    if len(data):
+        today = datetime.now().astimezone(timezone)
+        if data['NariadDate'].iloc[-1].day == today.day:
+            print('Data archive up to date')
+            return True
+    print('Data archive is outdated')
+    return False
+    
+
+def update_data(
+    initial_days_offset=INITIAL_DAYS_OFFSET, 
+    increment_days_offset=INCREMENT_DAYS_OFFSET, 
+    data_arch=ARCHIVE_DATA_FILENAME, 
+    data_fresh=FRESH_DATA_FILENAME):
+    if data_fresh not in os.listdir('./') or check_increment_update_time_hourly():
+        if data_arch not in os.listdir('./') or check_archive_update_time() or not is_arch_data_uptodate():
             start_date = datetime.today() - timedelta(days=initial_days_offset)
             end_date = datetime.today()
             archive_data = get_data(host, method, method_dict, start_date, end_date)
-            store_data(archive_data, 'data_archive.feather')
+            store_data(archive_data, data_arch)
             print(f'Download {initial_days_offset} days archive data')
             df_archive = pd.DataFrame(data=archive_data)
         else:
-            archive_data = load_data_from_file('data_archive.feather')
+            archive_data = load_data_from_file(data_arch)
             df_archive = archive_data #pd.DataFrame(data=archive_data)
         
-        start_date = datetime.today() - timedelta(days=days_offset)
+        start_date = datetime.today() - timedelta(days=increment_days_offset)
         end_date = datetime.today()
         increment_data = get_data(host, method, method_dict, start_date, end_date)
-        print(f'Download last {days_offset} days data')
+        print(f'Download last {increment_days_offset} days data')
     
         df_increment = pd.DataFrame(data=increment_data)
         df_increment = optimize(df_increment, ['NariadDate'])
@@ -110,11 +136,11 @@ def update_data(initial_days_offset=10, days_offset=3):
         df_updated = pd.concat([df_archive, df_increment], axis=0, ignore_index=True)\
             .drop_duplicates(['NariadDate','minIndex', 'rg_id', 'mr_id', 'crr_id'],keep='last').reset_index(drop=True)
         df_updated = optimize(df_updated, ['NariadDate'])
-        df_updated.to_feather('fresh_data_dump.feather')
+        df_updated.to_feather(FRESH_DATA_FILENAME)
 
         return df_updated
 
 if __name__ == '__main__':
     while True:
         update_data()
-        sleep(30)
+        sleep(GET_DATA_UPDATE_INTERVAL)

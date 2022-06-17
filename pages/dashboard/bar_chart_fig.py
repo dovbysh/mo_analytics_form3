@@ -19,11 +19,11 @@ def make_bar_chart(dff):
     fig.add_trace(
         go.Bar(
             x=dff['hour'], 
-            y=(dff['BusPlan']-dff['BusFact']), 
+            y=(dff['BusPlan']-dff['BusFact']-dff['OutBus']), 
             name="Невыпуск", 
             marker={'color': '#BCBCBB', 'opacity': 1, 'line': {'width': 0}}, 
             textfont={'color': 'rgb(255, 255, 255)'},
-            text=(dff['BusPlan']-dff['BusFact']), 
+            text=(dff['BusPlan']-dff['BusFact']-dff['OutBus']), 
             textposition='auto'
             ),
         secondary_y=False
@@ -53,16 +53,19 @@ def make_bar_chart(dff):
             textfont={'color': 'rgb(255, 255, 255)'},
             # text=(dff['BusFact']/dff['BusPlan']), 
             line_shape='spline',
+            hovertemplate="%{y}"
             ),
             secondary_y=True,
         )
+    # fig.update_traces(hovertemplate=None)
+    # fig.update_layout(hovermode="x")
     
     fig.update_layout(yaxis=dict(showgrid=False), yaxis2=dict(showgrid=False, tickformat=',.0%'))
     
     fig.update_layout(barmode='stack', 
-                      paper_bgcolor='#171C2D',
-                      plot_bgcolor='#171C2D', 
-                      font_color='rgb(255,255,255)', 
+                      paper_bgcolor='white', #'#171C2D',
+                      plot_bgcolor='white', #'#171C2D', 
+                    #   font_color='rgb(255,255,255)', 
                       legend={'orientation': 'h', 
                               'xanchor': 'center',
                               'x': .5},

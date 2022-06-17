@@ -1,12 +1,15 @@
 from dash.dash_table.Format import Format, Align
 from dash.dash_table import FormatTemplate
 
-style_cell = {'backgroundColor': '#171C2D', 'color': 'white', 'borderTopColor': 'blue'}
+style_cell = {
+    # 'backgroundColor': '#171C2D', 
+    # 'color': 'white', 
+    'borderTopColor': 'blue'}
 style_data = {
     'fontFamily': 'Helvetica', 
     'fontSize': '12px', 
-    'borderBottom': 'solid 1px #0E0F18', 
-    'borderTop': 'solid 1px #0E0F18',
+    # 'borderBottom': 'solid 1px #0E0F18', 
+    # 'borderTop': 'solid 1px #0E0F18',
     'whiteSpace': 'normal', 
     'height': 'auto'}
 style_header = {'fontFamily': 'Helvetica', 'fontSize': '14px','border': 'none', 'padding': '3px'}
@@ -37,7 +40,7 @@ dt_columns_all = [
     dict(id='% выполнения', name='% выполнения', type='numeric', format=FormatTemplate.percentage(0).align(Align.right)),
 ]
 
-def data_bars(df, column, start_color='rgb(23,28,45)', end_color='#AEAEAD'):
+def data_bars(df, column, start_color='rgb(255, 255, 255)', end_color='rgb(106, 170, 215)'):
     n_bins = 100
     bounds = [i * (1.0 / n_bins) for i in range(n_bins + 1)] # list [0, 0,01, ..., 0.99, 1]
     ranges = [
@@ -60,10 +63,10 @@ def data_bars(df, column, start_color='rgb(23,28,45)', end_color='#AEAEAD'):
             'background': (
                 """
                     linear-gradient(90deg,
-                    rgb(23,28,45) 0%,
+                    rgb(255, 255, 255) 0%,
                     {end_color} {max_bound_percentage}%,
                     {start_color} {max_bound_percentage}%,
-                    rgb(23,28,45) 0%)
+                    rgb(255, 255, 255) 0%)
                 """.format(max_bound_percentage=max_bound_percentage,
                            end_color = end_color,
                            start_color=start_color)

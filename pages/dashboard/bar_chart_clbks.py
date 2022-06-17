@@ -20,7 +20,18 @@ def update_bar_chart(store_data, active_cell_filters):
     carrier_filter = active_cell_filters.get('level_1', None)
     region_filter = active_cell_filters.get('level_2', None)
     route_filter = active_cell_filters.get('level_3', None)
+    
     barchart_clicked_x = active_cell_filters.get('barchart_clicked_x', '')
+    
+    datatable_sel_rows_filter = active_cell_filters.get('datatable_sel_rows', None)
+    if datatable_sel_rows_filter:
+        col_name = list(datatable_sel_rows_filter.keys())[0]
+        if col_name == 'crr_title':
+            carrier_filter = datatable_sel_rows_filter[col_name]
+        elif col_name == 'rg_title':
+            region_filter = datatable_sel_rows_filter[col_name]
+        elif col_name == 'mr_title':
+            route_filter = datatable_sel_rows_filter[col_name]
         
     # finally filter source dataframe
     dff = group_filter_barchart_data(
@@ -36,6 +47,7 @@ def update_bar_chart(store_data, active_cell_filters):
         },
         num_columns
     )
+            
     # create bar chart figure for callback output
     bar_chart_fig = make_bar_chart(dff)
     
