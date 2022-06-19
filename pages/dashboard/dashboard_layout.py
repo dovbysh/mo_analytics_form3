@@ -1,59 +1,42 @@
 from datetime import datetime, timedelta
-from multiprocessing.spawn import prepare
-from urllib.request import DataHandler
-from dash import Dash, dash_table, dcc, html
+from inspect import FullArgSpec
+from dash import dash_table, dcc, html, Input, Output
 import dash_bootstrap_components as dbc
 
+from app import app
 from data_prep.data_transform import rough_df, prepare_data
-from pages.vis_funcs.datatable_chart import style_cell, style_data, style_header, style_filter, \
-    style_cell_conditional
+from pages.dashboard.datatable_fig import style_cell, style_data, style_header, style_filter, style_cell_conditional
 
-dates_range = prepare_data(rough_df).index.min().date()
+
+dates_range = prepare_data(rough_df).index
 data_table_columns = prepare_data(rough_df).columns
 
-slider_style = {'backgroundColor': '#171C2D', 'color': 'grey', 'border': 'none'}
+slider_style = {
+    'backgroundColor': 'rgb(220, 220, 220)', #'#171C2D', 
+    'color': 'rgb(40, 40, 40)', #'grey', 
+    'border': 'none'}
 
-def make_page_layout():
+def make_dashboard_layout():
     page_layout = \
     html.Div(
         [
+            dcc.Location(id='dashboard', refresh=True),
             dcc.Store(id='memory-output'),
-            dbc.Container(
+            dcc.Store(id='memory-output2'),
+            html.Div(
                 [
-                dbc.Row(
-                    [
-                        dbc.Col(
-                            html.Img(
-                                    src='assets/images/mostransavto_logo.jpg', 
-                                    className='logo-image-container',
-                                    style={'height': '100%'}
-                            ),
-                            id='header-col-logo', 
-                            xs=1,
-                            sm=1,
-                            align='center', 
-                            ),
-                        dbc.Col(
-                            html.H3('Контроль выполнения работ'), 
-                            id='header-col-name', 
-                            sm=6, xs=10, align='left'),
-                        dbc.Col(id='header-col-cards',sm=5, xs=1)
-                    ],
-                    id='header-row',
-                    # justify='start', 
-                    ),
-                dbc.Row(
-                    [
+                    dbc.Row(
+                        [
                         dbc.Col(
                             [
                                 html.H3('Дата'),
                                 html.Div(
                                         dcc.DatePickerSingle(
                                             id='date-picker',
-                                            min_date_allowed=dates_range,
-                                            max_date_allowed=(datetime.today() - timedelta(minutes=75)).date(),
-                                            initial_visible_month=(datetime.today() - timedelta(minutes=75)).date(),
-                                            date=(datetime.today() - timedelta(minutes=75)).date(),
+                                            min_date_allowed=dates_range.min().date(),
+                                            max_date_allowed=dates_range.max().date(),
+                                            initial_visible_month=dates_range.max().date(),
+                                            date=dates_range.max().date(),
                                             display_format='DD-MM-YYYY',
                                         ),
                                     id='date-picker-Container'),
@@ -96,9 +79,24 @@ def make_page_layout():
                                             justify='center', 
                                             align='center'), 
                                         dbc.Col(
-                                            dcc.Graph(id='date-bar-chart',), 
+                                            # dcc.Graph(id='date-bar-chart',), 
+                                            dbc.Spinner(
+                                                dcc.Graph(
+                                                    id="date-bar-chart", 
+                                                    config={
+                                                        'doubleClick': 'reset+autosize', 
+                                                        'displaylogo': False, 
+                                                        'modeBarButtonsToRemove': ['zoom', 'pan', 'select', 'lasso2d']}, 
+                                                    ), 
+                                                fullscreen=True, 
+                                                delay_show=500, 
+                                                delay_hide=1000, 
+                                                color='rgb(254, 209, 35)',
+                                                fullscreen_style={'backgroundColor': 'whitesmoke'},
+                                                ),
                                             width=12, 
-                                            align='center'),
+                                            align='center'
+                                            ),
                                 dbc.Row(
                                     [
                                         dbc.Col(html.H3('Данные по перевозчикам / маршрутам'), width=9, align='center'),
@@ -149,11 +147,18 @@ def make_page_layout():
         className='main-block'
     )
     
-    
     return page_layout
 
-# if __name__ == '__main__':
-#     print('uncomment')
+
+# Create callbacks
+@app.callback(Output('dashboard', 'pathname'),
+              [Input('back-button', 'n_clicks')])
+def logout_dashboard(n_clicks):
+    if n_clicks > 0:
+        return '/'
+
+if __name__ == '__main__':
+    print('uncomment')
     # external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
     # app = Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
     # df = rough_df
